@@ -1,11 +1,16 @@
-package net.consolejs.entities;
+package net.consolejs;
+
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PaginationEntity<T> {
+    @Schema(hidden = true)
     private final List<T> myItems;
+    @Schema(hidden = true)
     private final int myPage;
+    @Schema(hidden = true)
     private final int myLastPage;
 
     private PaginationEntity(PaginationEntityBuilder builder) {

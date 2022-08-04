@@ -1,9 +1,18 @@
-package net.consolejs.entities;
+package net.consolejs;
 
+import lombok.Data;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Data
 public class ProductEntity {
+
+    @Schema(hidden = true)
     private final int myId;
+    @Schema(hidden = true)
     private final String myName;
+    @Schema(hidden = true)
     private final String myDescription;
+    @Schema(hidden = true)
     private final int myPrice;
 
     private ProductEntity(ProductEntityBuilder builder) {
