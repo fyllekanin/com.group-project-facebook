@@ -1,4 +1,4 @@
-package com.test.jersey.service;
+package net.consolejs.service;
 
 import org.jvnet.hk2.annotations.Contract;
 

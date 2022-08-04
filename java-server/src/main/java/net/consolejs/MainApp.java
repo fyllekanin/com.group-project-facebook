@@ -1,6 +1,6 @@
-package com.test.jersey;
+package net.consolejs;
 
-import com.test.jersey.config.AutoScanFeature;
+import net.consolejs.config.AutoScanFeature;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -12,22 +12,14 @@ import java.util.logging.Logger;
 public class MainApp {
 
     private static final Logger LOGGER = Logger.getLogger(MainApp.class.getName());
-
-    // we start at port 8080
     public static final String BASE_URI = "http://0.0.0.0:8080/";
 
-    // Starts Grizzly HTTP server
     public static HttpServer startServer() {
-
-        // scan packages
         final ResourceConfig config = new ResourceConfig();
-        config.packages(true, "com.test.jersey.resource");
-
-        // enable auto scan @Contract and @Service
+        config.packages(true, "net.consolejs.api");
         config.register(AutoScanFeature.class);
 
         LOGGER.info("Starting Server........");
-
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), config);
 
     }
@@ -36,8 +28,6 @@ public class MainApp {
 
         try {
             final HttpServer httpServer = startServer();
-            
-            // add jvm shutdown hook
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     System.out.println("Shutting down the application...");
@@ -51,8 +41,6 @@ public class MainApp {
             }));
 
             System.out.printf("Application started.%nStop the application using CTRL+C%n");
-
-            // block and wait shut down signal, like CTRL+C
             Thread.currentThread().join();
 
         } catch (InterruptedException ex) {
