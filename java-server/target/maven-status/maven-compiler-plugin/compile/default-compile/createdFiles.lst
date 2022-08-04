@@ -1,0 +1,10 @@
+META-INF/hk2-locator/default
+net/consolejs/service/MessageService.class
+net/consolejs/entities/ProductEntity$ProductEntityBuilder.class
+net/consolejs/service/MessageServiceImpl.class
+net/consolejs/config/AutoScanFeature.class
+net/consolejs/entities/PaginationEntity.class
+net/consolejs/api/ProductApi.class
+net/consolejs/MainApp.class
+net/consolejs/entities/PaginationEntity$PaginationEntityBuilder.class
+net/consolejs/entities/ProductEntity.class

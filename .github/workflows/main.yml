@@ -22,6 +22,6 @@ jobs:
         working-directory: front-end
         run: npm ci
 
-      - name: Install back-end
-        working-directory: back-end
+      - name: Install java-server
+        working-directory: java-server
         run: mvn clean install
