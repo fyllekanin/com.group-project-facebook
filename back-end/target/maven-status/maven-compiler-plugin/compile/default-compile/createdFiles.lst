@@ -1,7 +1,0 @@
-com/test/jersey/config/AutoScanFeature.class
-META-INF/hk2-locator/default
-com/test/jersey/service/MessageServiceImpl.class
-com/test/jersey/resource/MyResource.class
-com/test/jersey/service/MessageService.class
-com/test/jersey/MainApp.class
-com/test/jersey/resource/Testing.class
