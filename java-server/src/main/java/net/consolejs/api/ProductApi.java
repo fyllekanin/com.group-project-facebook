@@ -15,7 +15,7 @@ import java.util.List;
 @Path("/api/v1/products")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductApi {
-    
+
     private static final List<ProductEntity> myItems = getFakeItems();
     private static final int PER_PAGE = 10;
 
@@ -28,7 +28,7 @@ public class ProductApi {
         return Response.status(Response.Status.OK).entity(PaginationEntity.<ProductEntity>newBuilder()
                 .withItems(items)
                 .withPage(page)
-                .withLastPage(items.size() / PER_PAGE)
+                .withLastPage(ProductApi.myItems.size() / PER_PAGE)
                 .build()).build();
     }
 
