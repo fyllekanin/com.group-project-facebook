@@ -1,6 +1,6 @@
 name: Continues integration and grup-project-facebook deployment
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
