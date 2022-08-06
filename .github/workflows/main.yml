@@ -17,6 +17,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.19'
 
       - name: Install front-end
         working-directory: front-end
@@ -25,3 +28,7 @@ jobs:
       - name: Install java-server
         working-directory: java-server
         run: mvn clean install
+        
+      - name: Install go-server
+        working-directory: go-server
+        run: go build
