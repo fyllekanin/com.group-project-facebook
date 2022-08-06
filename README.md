@@ -22,3 +22,5 @@ Run the CURL command, then you can run "nvm install 16" and you will have NodeJS
 https://www.docker.com/products/docker-desktop/
 
 
+## [Guides](setups/README.md)
+Guides contains a bunch of links for useful resources
