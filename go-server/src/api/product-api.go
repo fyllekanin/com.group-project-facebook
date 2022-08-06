@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func GetProducts(w http.ResponseWriter, r *http.Request) {
+func getProducts(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var page, _ = strconv.Atoi(params["page"])
 	var products []entities.ProductEntity
@@ -31,4 +31,25 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(response)
+}
+
+func getProduct(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	var id, _ = strconv.Atoi(params["id"])
+
+	var response = entities.ProductEntity{
+		Id:          id,
+		Name:        fmt.Sprintf("Name #%d", id),
+		Description: "Cool description",
+		Price:       id,
+	}
+
+	json.NewEncoder(w).Encode(response)
+}
+
+func ProductApi(router *mux.Router) {
+
+	router.HandleFunc("/page/{page}", getProducts).Methods("GET")
+	router.HandleFunc("/{id}", getProduct).Methods("GET")
+
 }
