@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fyllekanin/go-server/src/entities"
+	"github.com/fyllekanin/go-server/src/repositories"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
@@ -12,22 +13,17 @@ import (
 func getProducts(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var page, _ = strconv.Atoi(params["page"])
-	var products []entities.ProductEntity
-	var start = (10 * page) - 10
+	var repository = repositories.NewProductRepository()
 
-	for i := start; i < (start + 10); i++ {
-		products = append(products, entities.ProductEntity{
-			Id:          i,
-			Name:        fmt.Sprintf("Name #%d", i),
-			Description: "Cool description",
-			Price:       i,
-		})
-	}
+	var productsCount = repository.GetProductsCount()
+
+	var start = (10 * page) - 10
+	var products = repositories.NewProductRepository().GetProducts(start, 10)
 
 	var response = entities.PaginationEntity[entities.ProductEntity]{
 		Items:    products,
 		Page:     page,
-		LastPage: 53,
+		LastPage: (productsCount / 10) + 1,
 	}
 
 	json.NewEncoder(w).Encode(response)
