@@ -12,6 +12,18 @@ type ProductRepository struct {
 	db *sql.DB
 }
 
+func (repository *ProductRepository) GetProductsCount() int {
+	var count int
+	row, _ := repository.db.Query("SELECT COUNT(*) from products")
+	defer row.Close()
+
+	for row.Next() {
+		row.Scan(&count)
+	}
+
+	return count
+}
+
 func (repository *ProductRepository) GetProducts(start int, limit int) []entities.ProductEntity {
 	rows, err := repository.db.Query(fmt.Sprintf("SELECT * FROM products LIMIT %d OFFSET %d", limit, start))
 	if err != nil {
@@ -32,25 +44,7 @@ func (repository *ProductRepository) GetProducts(start int, limit int) []entitie
 	return response
 }
 
-func (repository *ProductRepository) GetProductsCount() int {
-	var count int
-	row, _ := repository.db.Query("SELECT COUNT(*) from products")
-	defer row.Close()
-
-	for row.Next() {
-		row.Scan(&count)
-	}
-
-	return count
-}
-
-func NewProductRepository() *ProductRepository {
-	connStr := "postgres://username:password@localhost/go-server?sslmode=disable"
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func NewProductRepository(db *sql.DB) *ProductRepository {
 	return &ProductRepository{
 		db: db,
 	}

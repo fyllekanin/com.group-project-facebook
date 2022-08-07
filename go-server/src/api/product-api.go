@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fyllekanin/go-server/src/app"
 	"github.com/fyllekanin/go-server/src/entities"
 	"github.com/fyllekanin/go-server/src/repositories"
 	"github.com/gorilla/mux"
@@ -10,15 +11,19 @@ import (
 	"strconv"
 )
 
-func getProducts(w http.ResponseWriter, r *http.Request) {
+type ProductApi struct {
+	application *app.Application
+}
+
+func (api *ProductApi) getProducts(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var page, _ = strconv.Atoi(params["page"])
-	var repository = repositories.NewProductRepository()
+	var repository = repositories.NewProductRepository(api.application.Db)
 
 	var productsCount = repository.GetProductsCount()
 
 	var start = (10 * page) - 10
-	var products = repositories.NewProductRepository().GetProducts(start, 10)
+	var products = repositories.NewProductRepository(api.application.Db).GetProducts(start, 10)
 
 	var response = entities.PaginationEntity[entities.ProductEntity]{
 		Items:    products,
@@ -29,7 +34,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func getProduct(w http.ResponseWriter, r *http.Request) {
+func (api *ProductApi) getProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var id, _ = strconv.Atoi(params["id"])
 
@@ -43,9 +48,13 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func ProductApi(router *mux.Router) {
+func GetNewProductApi(application *app.Application) *ProductApi {
+	var api = &ProductApi{
+		application: application,
+	}
+	var subRouter = application.Router.PathPrefix("/products").Subrouter()
 
-	router.HandleFunc("/page/{page}", getProducts).Methods("GET")
-	router.HandleFunc("/{id}", getProduct).Methods("GET")
-
+	subRouter.HandleFunc("/page/{page}", api.getProducts).Methods("GET")
+	subRouter.HandleFunc("/{id}", api.getProduct).Methods("GET")
+	return api
 }
