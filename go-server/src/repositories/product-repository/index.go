@@ -1,4 +1,4 @@
-package repositories
+package product_repository
 
 import (
 	"database/sql"
@@ -29,17 +29,28 @@ func (repository *ProductRepository) GetProducts(start int, limit int) []entitie
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer rows.Close()
 
+	return scanRows(rows)
+}
+
+func (repository *ProductRepository) GetProduct(id int) entities.ProductEntity {
+	rows, err := repository.db.Query(fmt.Sprintf("SELECT * FROM products WHERE id = %d LIMIT 1", id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var response = scanRows(rows)
+	return response[0]
+}
+
+func scanRows(rows *sql.Rows) []entities.ProductEntity {
 	var response []entities.ProductEntity
 	for rows.Next() {
-		var r entities.ProductEntity
-		err := rows.Scan(&r.Id, &r.Name, &r.Description, &r.Price, &r.CreatedAt, &r.UpdatedAt)
-		if err != nil {
-			log.Fatal(err)
-		}
-		response = append(response, r)
+		var item entities.ProductEntity
+		rows.Scan(&item.Id, &item.Name, &item.Description, &item.Price, &item.CreatedAt, &item.UpdatedAt)
+		response = append(response, item)
 	}
 	return response
 }

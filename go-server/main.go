@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/fyllekanin/go-server/src/api"
+	"github.com/fyllekanin/go-server/src/api/product-api"
 	"github.com/fyllekanin/go-server/src/app"
 	"github.com/gorilla/mux"
 	"log"
@@ -16,7 +16,7 @@ func main() {
 	apiRouter := router.PathPrefix("/api/v1").Subrouter()
 
 	var application = app.GetNewApplication(apiRouter, db)
-	api.GetNewProductApi(application)
+	product_api.GetNewProductApi(application)
 
 	fmt.Println("Server at 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
