@@ -8,6 +8,7 @@ services :
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
       POSTGRES_DB: go-server
+      POSTGRESQL_MAX_OPEN_CONNS: 50
   admin:
     image: adminer
     restart: always

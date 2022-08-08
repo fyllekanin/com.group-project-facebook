@@ -26,20 +26,20 @@ func (repository *ProductRepository) GetProductsCount() int {
 
 func (repository *ProductRepository) GetProducts(start int, limit int) []entities.ProductEntity {
 	rows, err := repository.db.Query(fmt.Sprintf("SELECT * FROM products LIMIT %d OFFSET %d", limit, start))
+	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
 
 	return scanRows(rows)
 }
 
 func (repository *ProductRepository) GetProduct(id int) entities.ProductEntity {
 	rows, err := repository.db.Query(fmt.Sprintf("SELECT * FROM products WHERE id = %d LIMIT 1", id))
+	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
 
 	var response = scanRows(rows)
 	return response[0]

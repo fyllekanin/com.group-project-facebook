@@ -28,5 +28,6 @@ func createDatabaseConnection() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+	db.SetMaxOpenConns(50)
 	return db
 }
