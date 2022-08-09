@@ -17,7 +17,7 @@ type ProductApi struct {
 func (api *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var page, err = strconv.Atoi(params["page"])
-	if err != nil {:
+	if err != nil {
 		json.NewEncoder(w).Encode("page needs to be a number")
 		return
 	}
