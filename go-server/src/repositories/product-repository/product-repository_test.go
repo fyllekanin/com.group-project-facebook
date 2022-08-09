@@ -21,7 +21,7 @@ func TestShouldReturnProduct(t *testing.T) {
 	var repository = NewProductRepository(db)
 
 	// When
-	var response = repository.GetProduct(id)
+	response, _ := repository.GetProduct(id)
 
 	// Then
 	if response.Id != 5 {
@@ -45,7 +45,7 @@ func TestShouldReturnProducts(t *testing.T) {
 	var repository = NewProductRepository(db)
 
 	// When
-	var response = repository.GetProducts(10, 10)
+	response, _ := repository.GetProducts(10, 10)
 
 	// Then
 	if len(response) != 3 {

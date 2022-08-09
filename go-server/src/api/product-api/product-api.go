@@ -16,13 +16,24 @@ type ProductApi struct {
 
 func (api *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	var page, _ = strconv.Atoi(params["page"])
+	var page, err = strconv.Atoi(params["page"])
+	if err != nil {:
+		json.NewEncoder(w).Encode("page needs to be a number")
+		return
+	}
 	var repository = product_repository.NewProductRepository(api.application.Db)
-
-	var productsCount = repository.GetProductsCount()
+	productsCount, err := repository.GetProductsCount()
+	if err != nil {
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
 
 	var start = (10 * page) - 10
-	var products = product_repository.NewProductRepository(api.application.Db).GetProducts(start, 10)
+	products, err := product_repository.NewProductRepository(api.application.Db).GetProducts(start, 10)
+	if err != nil {
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
 
 	var response = entities.PaginationEntity[entities.ProductEntity]{
 		Items:    products,
@@ -38,7 +49,11 @@ func (api *ProductApi) GetProduct(w http.ResponseWriter, r *http.Request) {
 	var id, _ = strconv.Atoi(params["id"])
 	var repository = product_repository.NewProductRepository(api.application.Db)
 
-	var entity = repository.GetProduct(id)
+	entity, err := repository.GetProduct(id)
+	if err != nil {
+		json.NewEncoder(w).Encode(err)
+		return
+	}
 	json.NewEncoder(w).Encode(entity)
 }
 
