@@ -14,12 +14,18 @@ public class ProductEntity {
     private final String myDescription;
     @Schema(hidden = true)
     private final int myPrice;
+    @Schema(hidden = true)
+    private final int myCreatedAt;
+    @Schema(hidden = true)
+    private final int myUpdatedat;
 
     private ProductEntity(ProductEntityBuilder builder) {
         myId = builder.myId;
         myName = builder.myName;
         myDescription = builder.myDescription;
         myPrice = builder.myPrice;
+        myCreatedAt = builder.myCreatedAt;
+        myUpdatedat = builder.myUpdatedAt;
     }
 
     public int getId() {
@@ -38,6 +44,14 @@ public class ProductEntity {
         return myPrice;
     }
 
+    public int getCreatedAt() {
+        return myCreatedAt;
+    }
+
+    public int getUpdatedAt() {
+        return myUpdatedat;
+    }
+
     public static ProductEntityBuilder newBuilder() {
         return new ProductEntityBuilder();
     }
@@ -47,6 +61,8 @@ public class ProductEntity {
         private String myName;
         private String myDescription;
         private int myPrice;
+        private int myCreatedAt;
+        private int myUpdatedAt;
 
         private ProductEntityBuilder() {
         }
@@ -68,6 +84,16 @@ public class ProductEntity {
 
         public ProductEntityBuilder withPrice(int price) {
             myPrice = price;
+            return this;
+        }
+
+        public ProductEntityBuilder withCreatedAt(int createdAt) {
+            myCreatedAt = createdAt;
+            return this;
+        }
+
+        public ProductEntityBuilder withUpdatedAt(int updatedAt) {
+            myUpdatedAt = updatedAt;
             return this;
         }
 

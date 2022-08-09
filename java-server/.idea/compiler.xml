@@ -20,6 +20,7 @@
         <module name="services" />
         <module name="api" />
         <module name="entities" />
+        <module name="repositories" />
       </profile>
     </annotationProcessing>
   </component>
@@ -28,6 +29,7 @@
       <module name="api" options="-parameters" />
       <module name="entities" options="-parameters" />
       <module name="main" options="-parameters" />
+      <module name="repositories" options="-parameters" />
       <module name="services" options="-parameters" />
     </option>
   </component>

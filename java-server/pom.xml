@@ -10,6 +10,7 @@
 
     <modules>
         <module>entities</module>
+        <module>repositories</module>
         <module>services</module>
         <module>api</module>
         <module>main</module>
@@ -31,6 +32,8 @@
         <quarkus.platform.version>2.7.5.Final</quarkus.platform.version>
         <quarkus-plugin.version>${quarkus.platform.version}</quarkus-plugin.version>
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
+
+        <org.postgresql.postgresql.version>42.4.1</org.postgresql.postgresql.version>
     </properties>
 
 
