@@ -7,4 +7,7 @@ require (
 	github.com/lib/pq v1.10.6
 )
 
-require github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
+require (
+	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+)
