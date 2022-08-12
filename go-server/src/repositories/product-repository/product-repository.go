@@ -57,8 +57,8 @@ func (repository *ProductRepository) GetProduct(id int) (entities.ProductEntity,
 		return entities.ProductEntity{}, errors.New("failed to prepare statement")
 	}
 	rows, err := statement.Query(id)
-
 	defer rows.Close()
+
 	if err != nil {
 		log.Println(err)
 		return entities.ProductEntity{}, errors.New("failed to query statement")

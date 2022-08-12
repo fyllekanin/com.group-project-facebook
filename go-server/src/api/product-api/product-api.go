@@ -2,6 +2,7 @@ package product_api
 
 import (
 	"encoding/json"
+	"github.com/fyllekanin/go-server/src/api"
 	"github.com/fyllekanin/go-server/src/app"
 	"github.com/fyllekanin/go-server/src/common/error-interface"
 	"github.com/fyllekanin/go-server/src/entities"
@@ -15,7 +16,7 @@ type ProductApi struct {
 	application *app.Application
 }
 
-func (api *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
+func (productApi *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var page, err = strconv.Atoi(params["page"])
 	if err != nil {
@@ -25,7 +26,7 @@ func (api *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	var repository = product_repository.NewProductRepository(api.application.Db)
+	var repository = product_repository.NewProductRepository(productApi.application.Db)
 	productsCount, err := repository.GetProductsCount()
 	if err != nil {
 		w.WriteHeader(400)
@@ -36,7 +37,7 @@ func (api *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var start = (10 * page) - 10
-	products, err := product_repository.NewProductRepository(api.application.Db).GetProducts(start, 10)
+	products, err := product_repository.NewProductRepository(productApi.application.Db).GetProducts(start, 10)
 	if err != nil {
 		w.WriteHeader(400)
 		json.NewEncoder(w).Encode(error_interface.RestError{
@@ -45,7 +46,7 @@ func (api *ProductApi) GetProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var response = entities.PaginationEntity[entities.ProductEntity]{
+	var response = api.PaginationEntity[entities.ProductEntity]{
 		Items:    products,
 		Page:     page,
 		LastPage: (productsCount / 10) + 1,

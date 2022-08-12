@@ -1,4 +1,4 @@
-package entities
+package api
 
 type PaginationEntity[T any] struct {
 	Items    []T `json:"items"`
